@@ -27,7 +27,8 @@
 		"Pivotal.vscode-spring-boot",
 		"GabrielBB.vscode-lombok",
 		"redhat.fabric8-analytics",
-		"GitHub.copilot"
+		"GitHub.copilot",
+		"vscjava.vscode-spring-initializr"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
