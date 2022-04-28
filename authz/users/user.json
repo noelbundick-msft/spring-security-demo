@@ -1,9 +1,19 @@
 {
-  "name": "user",
   "roleAssignments": [
     {
-      "role": "read",
-      "scope": "/things/1"
+      "id": 2,
+      "role": {
+        "assignableScopes": [
+          "/*"
+        ],
+        "description": "Reader",
+        "id": 2,
+        "roleName": "read"
+      },
+      "scope": "/*",
+      "userPrincipalId": "2"
     }
-  ]
+  ],
+  "userPrincipalId": "2",
+  "userPrincipalOrgId": "2"
 }

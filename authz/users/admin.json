@@ -1,13 +1,19 @@
 {
-  "name": "admin",
   "roleAssignments": [
     {
-      "role": "read",
-      "scope": "/things/1"
-    },
-    {
-      "role": "write",
-      "scope": "/things/1"
+      "id": 1,
+      "role": {
+        "assignableScopes": [
+          "/*"
+        ],
+        "description": "Global Administrator",
+        "id": 1,
+        "roleName": "global_admin"
+      },
+      "scope": "/*",
+      "userPrincipalId": "1"
     }
-  ]
+  ],
+  "userPrincipalId": "1",
+  "userPrincipalOrgId": "1"
 }

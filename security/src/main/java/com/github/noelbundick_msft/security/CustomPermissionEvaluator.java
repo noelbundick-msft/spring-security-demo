@@ -22,18 +22,24 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
   @Override
   public boolean hasPermission(Authentication authentication, Serializable targetId, String targetType,
       Object permission) {
-    // Admins can do anything
-    if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
-      return true;
-    }
-
     RestTemplate restTemplate = new RestTemplate();
 
     String url = String.format("http://localhost:3000/users/%s.json", authentication.getName());
-    AuthZResponse authZ = restTemplate.getForObject(url, AuthZResponse.class);
-    for (AuthZRoleAssignment roleAssignment : authZ.getRoleAssignments()) {
-      String desiredScope = String.format("/things/%s", targetId);
-      if (roleAssignment.scope.equals(desiredScope) && roleAssignment.role.equals(permission)) {
+    AuthUserDetails authZ = restTemplate.getForObject(url, AuthUserDetails.class);
+    for (AuthRoleAssignment roleAssignment : authZ.getRoleAssignments()) {
+      // Global Admin can do everything
+      if (roleAssignment.role.getRoleName().equals("global_admin")) {
+        return true;
+      }
+
+      // Check for permission match
+      if (!roleAssignment.role.getRoleName().equals(permission)) {
+        continue;
+      }
+
+      // Check for scope match
+      // TODO: process wildcards
+      if (roleAssignment.scope.equals("/*")) {
         return true;
       }
     }
