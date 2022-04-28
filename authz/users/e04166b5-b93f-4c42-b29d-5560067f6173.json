@@ -1,0 +1,19 @@
+{
+  "roleAssignments": [
+    {
+      "id": 3,
+      "role": {
+        "assignableScopes": [
+          "/*"
+        ],
+        "description": "Global Administrator",
+        "id": 1,
+        "roleName": "global_admin"
+      },
+      "scope": "/*",
+      "userPrincipalId": "e04166b5-b93f-4c42-b29d-5560067f6173"
+    }
+  ],
+  "userPrincipalId": "e04166b5-b93f-4c42-b29d-5560067f6173",
+  "userPrincipalOrgId": "2"
+}
