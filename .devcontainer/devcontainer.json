@@ -12,7 +12,7 @@
 			// Options
 			"INSTALL_MAVEN": "true",
 			"INSTALL_GRADLE": "false",
-			"NODE_VERSION": "none"
+			"NODE_VERSION": "16"
 		}
 	},
 

@@ -1,0 +1,13 @@
+{
+  "name": "admin",
+  "roleAssignments": [
+    {
+      "role": "read",
+      "scope": "/things/1"
+    },
+    {
+      "role": "write",
+      "scope": "/things/1"
+    }
+  ]
+}

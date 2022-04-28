@@ -1,0 +1,9 @@
+{
+  "name": "user",
+  "roleAssignments": [
+    {
+      "role": "read",
+      "scope": "/things/1"
+    }
+  ]
+}
