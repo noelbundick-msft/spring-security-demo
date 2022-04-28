@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import com.github.noelbundick_msft.security.CustomPermissionEvaluator;
 
@@ -44,9 +45,9 @@ public class WebapiApplication {
 	}
 
 	@Bean
-	static MethodSecurityExpressionHandler methodSecurityExpressionHandler() {
+	static MethodSecurityExpressionHandler methodSecurityExpressionHandler(OAuth2AuthorizedClientService authorizedClientService) {
 		DefaultMethodSecurityExpressionHandler handler = new DefaultMethodSecurityExpressionHandler();
-		handler.setPermissionEvaluator(new CustomPermissionEvaluator());
+		handler.setPermissionEvaluator(new CustomPermissionEvaluator(authorizedClientService));
 		return handler;
 	}
 

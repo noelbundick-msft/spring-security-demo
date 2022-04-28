@@ -2,13 +2,24 @@ package com.github.noelbundick_msft.security;
 
 import java.io.Serializable;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 public class CustomPermissionEvaluator implements PermissionEvaluator {
+  private final OAuth2AuthorizedClientService authorizedClientService;
+
+  public CustomPermissionEvaluator(OAuth2AuthorizedClientService authorizedClientService) {
+    this.authorizedClientService = authorizedClientService;
+  }
 
   @Override
   public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
@@ -24,11 +35,21 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
   @Override
   public boolean hasPermission(Authentication authentication, Serializable targetId, String targetType,
       Object permission) {
-    RestTemplate restTemplate = new RestTemplate();
-
     try {
-      String url = String.format("http://localhost:3000/users/%s.json", authentication.getName());
-      AuthUserDetails authZ = restTemplate.getForObject(url, AuthUserDetails.class);
+      String userId = authentication.getName();
+      OAuth2AccessToken accessToken = authorizedClientService
+          .loadAuthorizedClient("pingidentity", userId).getAccessToken();
+
+      RestTemplate restTemplate = new RestTemplate();
+
+      HttpHeaders headers = new HttpHeaders();
+      headers.add("Authorization", "Bearer " + accessToken.getTokenValue());
+      HttpEntity<Void> request = new HttpEntity<>(headers);
+
+      ResponseEntity<AuthUserDetails> response = restTemplate.exchange("http://localhost:3000/users/{userId}.json",
+          HttpMethod.GET, request, AuthUserDetails.class, userId);
+      AuthUserDetails authZ = response.getBody();
+
       for (AuthRoleAssignment roleAssignment : authZ.getRoleAssignments()) {
         // Global Admin can do everything
         if (roleAssignment.role.getRoleName().equals("global_admin")) {
