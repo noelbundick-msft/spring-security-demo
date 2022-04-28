@@ -1,4 +1,4 @@
-package com.github.noelbundick_msft.libs.security;
+package com.github.noelbundick_msft.security;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
