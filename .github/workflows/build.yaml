@@ -16,7 +16,7 @@ jobs:
         run: mvn --batch-mode --update-snapshots package
         env:
           PING_ISSUER_URI: ${{ secrets.PING_ISSUER_URI }}
-      - run: mkdir staging && cp target/*.jar staging
+      - run: mkdir staging && cp **/target/*.jar staging
       - uses: actions/upload-artifact@v3
         with:
           name: Package
