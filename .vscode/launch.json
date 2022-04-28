@@ -9,7 +9,8 @@
       "name": "Launch WebapiApplication",
       "request": "launch",
       "mainClass": "com.github.noelbundick_msft.apps.webapi.WebapiApplication",
-      "projectName": "webapi"
+      "projectName": "webapi",
+      "envFile": "${workspaceFolder}/.env"
     }
   ]
 }
