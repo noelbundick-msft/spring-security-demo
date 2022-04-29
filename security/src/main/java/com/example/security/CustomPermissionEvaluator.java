@@ -14,15 +14,18 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @Component
 public class CustomPermissionEvaluator implements PermissionEvaluator {
   private final Logger logger = LoggerFactory.getLogger(CustomPermissionEvaluator.class);
+  public static GrantedAuthority SYSTEM_ROLE = new SimpleGrantedAuthority("ROLE_SYSTEM");
 
   private final OAuth2AuthorizedClientService authorizedClientService;
   private String authzurl;
@@ -32,17 +35,10 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
   public CustomPermissionEvaluator(OAuth2AuthorizedClientService authorizedClientService,
       @Value("${com.example.security.authz-url}") String authzurl,
       @Value("${com.example.security.global-admin-role:global_admin}") String globalAdminRole) {
-    if (authorizedClientService == null) {
-      throw new IllegalArgumentException("authorizedClientService cannot be null");
-    }
 
-    if (authzurl == null) {
-      throw new IllegalArgumentException("authzurl cannot be null");
-    }
-
-    if (globalAdminRole == null) {
-      throw new IllegalArgumentException("globalAdminRole cannot be null");
-    }
+    Assert.isTrue(authorizedClientService != null, "authorizedClientService cannot be null");
+    Assert.isTrue(authzurl != null, "authzurl cannot be null");
+    Assert.isTrue(globalAdminRole != null, "globalAdminRole cannot be null");
 
     this.authorizedClientService = authorizedClientService;
     this.authzurl = authzurl;
@@ -55,8 +51,7 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
       return false;
     }
 
-    // Admins can do anything
-    if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+    if (authentication.getAuthorities().contains(SYSTEM_ROLE)) {
       return true;
     }
 
@@ -69,6 +64,10 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
       Object permission) {
     if (authentication == null) {
       return false;
+    }
+
+    if (authentication.getAuthorities().contains(SYSTEM_ROLE)) {
+      return true;
     }
 
     String userId = authentication.getName();

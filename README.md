@@ -57,6 +57,33 @@ With that created, you can now tell your app to use your evaluator by configurin
   }
 ```
 
+## CustomPermissionEvaluator
+
+This is a sample `PermissionEvaluator` with the following features
+
+## Logic
+
+* Unauthenticated calls are always denied
+* Always allowed: `ROLE_SYSTEM` - since we are using `@PreAuthorize` at the method level (versus on a `RestController` or similar), **all** calls must be authenticated - including ones internal to the software. Ex: to preload data on application startup.
+* Authorization API: all other calls look up information from an external AuthZ REST API
+  * User lookups are based on the `Authentication` name - normally the `sub` claim in an OAuth2 JWT
+  * The user's bearer token is passed downstream to the AuthZ API
+  * If the user holds a role assignment of `global_admin`, the call is allowed
+  * If any of the user's role assignments match the requested scope/permission, the call is allowed
+  * If there is no match, the call is denied
+
+## Configuration
+
+`CustomPermissionEvaluator` can be configured via application.properties:
+
+```
+# REQUIRED: the downstream API that should be used to lookup user role assignments
+com.example.security.authz-url: 'http://localhost:3000/users/{userId}.json'
+
+# OPTIONAL: the name of the global admin role. Defaults to `global_admin`
+com.example.security.authz-urlglobal-admin-role: global_admin
+```
+
 ## References
 
 * [Method Security](https://docs.spring.io/spring-security/reference/servlet/authorization/method-security.html)
