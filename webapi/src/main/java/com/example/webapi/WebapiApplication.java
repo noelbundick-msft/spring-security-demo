@@ -1,4 +1,4 @@
-package com.github.noelbundick_msft.apps.webapi;
+package com.example.webapi;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -15,9 +15,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import com.github.noelbundick_msft.security.CustomPermissionEvaluator;
+import com.example.security.CustomPermissionEvaluator;
 
-@ComponentScan("com.github.noelbundick_msft.security")
+@ComponentScan("com.example.security")
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @SpringBootApplication
 public class WebapiApplication {

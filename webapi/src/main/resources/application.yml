@@ -13,7 +13,8 @@ spring:
         provider:
           pingidentity:
             issuer-uri: ${PING_ISSUER_URI}
-noelbundick_msft:
-  security:
-    authz-url: 'http://localhost:3000/users/{userId}.json'
-    #global-admin-role: global_admin
+com:
+  example:
+    security:
+      authz-url: 'http://localhost:3000/users/{userId}.json'
+      #global-admin-role: global_admin

@@ -1,4 +1,4 @@
-package com.github.noelbundick_msft.security;
+package com.example.security;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

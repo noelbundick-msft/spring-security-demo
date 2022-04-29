@@ -1,4 +1,4 @@
-package com.github.noelbundick_msft.security;
+package com.example.security;
 
 import java.io.Serializable;
 import java.util.List;
@@ -30,8 +30,8 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
 
   @Autowired
   public CustomPermissionEvaluator(OAuth2AuthorizedClientService authorizedClientService,
-      @Value("${noelbundick_msft.security.authz-url}") String authzurl,
-      @Value("${noelbundick_msft.security.global-admin-role:global_admin}") String globalAdminRole) {
+      @Value("${com.example.security.authz-url}") String authzurl,
+      @Value("${com.example.security.global-admin-role:global_admin}") String globalAdminRole) {
     if (authorizedClientService == null) {
       throw new IllegalArgumentException("authorizedClientService cannot be null");
     }

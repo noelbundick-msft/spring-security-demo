@@ -1,4 +1,4 @@
-package com.github.noelbundick_msft.apps.webapi;
+package com.example.webapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

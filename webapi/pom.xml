@@ -3,11 +3,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.github.noelbundick_msft</groupId>
+		<groupId>com.example</groupId>
     <artifactId>root</artifactId>
     <version>${revision}</version>
 	</parent>
-	<groupId>com.github.noelbundick_msft</groupId>
+	<groupId>com.example</groupId>
 	<artifactId>webapi</artifactId>
 	<version>${revision}</version>
 	<name>webapi</name>
@@ -35,7 +35,7 @@
   	</dependency>
 
 		<dependency>
-			<groupId>com.github.noelbundick_msft</groupId>
+			<groupId>com.example</groupId>
 			<artifactId>security</artifactId>
     	<version>${revision}</version>
 		</dependency>

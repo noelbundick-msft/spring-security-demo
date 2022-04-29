@@ -1,4 +1,4 @@
-package com.github.noelbundick_msft.apps.webapi;
+package com.example.webapi;
 
 import java.util.Optional;
 

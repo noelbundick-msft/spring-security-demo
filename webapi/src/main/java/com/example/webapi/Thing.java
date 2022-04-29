@@ -1,4 +1,4 @@
-package com.github.noelbundick_msft.apps.webapi;
+package com.example.webapi;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

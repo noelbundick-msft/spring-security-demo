@@ -8,7 +8,7 @@
       "type": "java",
       "name": "Launch WebapiApplication",
       "request": "launch",
-      "mainClass": "com.github.noelbundick_msft.apps.webapi.WebapiApplication",
+      "mainClass": "com.example.webapi.WebapiApplication",
       "projectName": "webapi",
       "envFile": "${workspaceFolder}/.env"
     }

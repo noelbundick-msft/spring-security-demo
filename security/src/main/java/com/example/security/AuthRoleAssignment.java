@@ -1,4 +1,4 @@
-package com.github.noelbundick_msft.security;
+package com.example.security;
 
 import lombok.Data;
 
