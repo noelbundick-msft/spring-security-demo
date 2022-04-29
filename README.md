@@ -57,6 +57,20 @@ With that created, you can now tell your app to use your evaluator by configurin
   }
 ```
 
+## Demo usage
+
+* Open this repository in GitHub Codespaces
+* Launch the simulated AuthZ API: `npx serve ./authz`
+* `cp .env.sample .env` and fill in the details for your Ping Identity application in your `.env` file
+* Press F5 in VS Code, then navigate to `http://localhost:8080`
+* Login, then visit `GET` on `things` - note that you receive HTTP 403 Forbidden
+* Create a fake API response for your user
+  * Visit `http://localhost:8080/me` to see your JWT. Copy your `sub` claim
+  * `cp ./authz/sample_admin.json ./authz/{sub}.json`
+  * Update `./authz/{sub}.json` with your details
+* Visit `GET` on `things` - you should see 10 things, showing that you are successfully authorized as a `global_admin`
+
+
 ## CustomPermissionEvaluator
 
 This is a sample `PermissionEvaluator` with the following features
@@ -71,6 +85,12 @@ This is a sample `PermissionEvaluator` with the following features
   * If the user holds a role assignment of `global_admin`, the call is allowed
   * If any of the user's role assignments match the requested scope/permission, the call is allowed
   * If there is no match, the call is denied
+
+### Role assignment evaluation
+
+The key parts of a 
+
+
 
 ## Configuration
 
