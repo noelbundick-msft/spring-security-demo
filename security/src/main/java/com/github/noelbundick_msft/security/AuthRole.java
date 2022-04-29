@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class AuthRole {
-  String roleName;
+  private String roleName;
 }

@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class AuthUserDetails {
-  String userPrincipalId;
-  String userPrincipalOrgId;
-  List<AuthRoleAssignment> roleAssignments;
+  private String userPrincipalId;
+  private String userPrincipalOrgId;
+  private List<AuthRoleAssignment> roleAssignments;
 }

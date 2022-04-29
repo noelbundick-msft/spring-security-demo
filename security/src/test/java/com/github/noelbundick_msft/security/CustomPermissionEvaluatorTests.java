@@ -12,10 +12,13 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 
 class CustomPermissionEvaluatorTests {
 
+  static String TEST_AUTHZ_URL = "http://localhost:3000/users/{userId}.json";
+  static String TEST_GLOBAL_ADMIN = "global_admin";
+
   @Test
   void throwsForNullAuthorizedClientService() {
     assertThrows(IllegalArgumentException.class, () -> {
-      new CustomPermissionEvaluator(null);
+      new CustomPermissionEvaluator(null, TEST_AUTHZ_URL, TEST_GLOBAL_ADMIN);
     });
   }
 
@@ -26,7 +29,7 @@ class CustomPermissionEvaluatorTests {
         .build();
     var clientRegistrationRepository = new InMemoryClientRegistrationRepository(registration);
     var authorizedClientService = new InMemoryOAuth2AuthorizedClientService(clientRegistrationRepository);
-    var evaluator = new CustomPermissionEvaluator(authorizedClientService);
+    var evaluator = new CustomPermissionEvaluator(authorizedClientService, TEST_AUTHZ_URL, TEST_GLOBAL_ADMIN);
     assertNotNull(evaluator);
   }
 
@@ -48,6 +51,6 @@ class CustomPermissionEvaluatorTests {
         .build();
     var clientRegistrationRepository = new InMemoryClientRegistrationRepository(registration);
     var authorizedClientService = new InMemoryOAuth2AuthorizedClientService(clientRegistrationRepository);
-    return new CustomPermissionEvaluator(authorizedClientService);
+    return new CustomPermissionEvaluator(authorizedClientService, TEST_AUTHZ_URL, TEST_GLOBAL_ADMIN);
   }
 }

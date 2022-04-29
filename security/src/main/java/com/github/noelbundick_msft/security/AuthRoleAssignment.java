@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class AuthRoleAssignment {
-  String scope;
-  AuthRole role;
+  private String scope;
+  private AuthRole role;
 }

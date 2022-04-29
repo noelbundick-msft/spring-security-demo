@@ -4,6 +4,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,10 +14,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import com.github.noelbundick_msft.security.CustomPermissionEvaluator;
 
+@ComponentScan("com.github.noelbundick_msft.security")
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @SpringBootApplication
 public class WebapiApplication {
@@ -45,9 +46,9 @@ public class WebapiApplication {
 	}
 
 	@Bean
-	static MethodSecurityExpressionHandler methodSecurityExpressionHandler(OAuth2AuthorizedClientService authorizedClientService) {
+	static MethodSecurityExpressionHandler methodSecurityExpressionHandler(CustomPermissionEvaluator evaluator) {
 		DefaultMethodSecurityExpressionHandler handler = new DefaultMethodSecurityExpressionHandler();
-		handler.setPermissionEvaluator(new CustomPermissionEvaluator(authorizedClientService));
+		handler.setPermissionEvaluator(evaluator);
 		return handler;
 	}
 
