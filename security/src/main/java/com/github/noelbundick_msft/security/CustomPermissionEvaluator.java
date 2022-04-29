@@ -18,11 +18,19 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
   private final OAuth2AuthorizedClientService authorizedClientService;
 
   public CustomPermissionEvaluator(OAuth2AuthorizedClientService authorizedClientService) {
+    if (authorizedClientService == null) {
+      throw new IllegalArgumentException("authorizedClientService cannot be null");
+    }
+
     this.authorizedClientService = authorizedClientService;
   }
 
   @Override
   public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
+    if (authentication == null) {
+      return false;
+    }
+
     // Admins can do anything
     if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
       return true;
@@ -35,6 +43,10 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
   @Override
   public boolean hasPermission(Authentication authentication, Serializable targetId, String targetType,
       Object permission) {
+    if (authentication == null) {
+      return false;
+    }
+
     try {
       String userId = authentication.getName();
       OAuth2AccessToken accessToken = authorizedClientService
