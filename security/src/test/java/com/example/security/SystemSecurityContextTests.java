@@ -13,7 +13,7 @@ public class SystemSecurityContextTests {
   }
 
   @Test
-  void contextSetsSystemRoleAuthentication() throws Exception {
+  void contextSetsSystemRoleAuthentication() {
     try (SystemSecurityContext context = new SystemSecurityContext()) {
       var authentication = SecurityContextHolder.getContext().getAuthentication();
       assertNotNull(authentication);
@@ -24,14 +24,14 @@ public class SystemSecurityContextTests {
   }
 
   @Test
-  void getAuthenticationReturnsSecurityContextHolderAuthentication() throws Exception {
+  void getAuthenticationReturnsSecurityContextHolderAuthentication() {
     try (SystemSecurityContext context = new SystemSecurityContext()) {
       assertEquals(context.getAuthentication(), SecurityContextHolder.getContext().getAuthentication());
     }
   }
 
   @Test
-  void resetsAuthenticationAfterClose() throws Exception {
+  void resetsAuthenticationAfterClose() {
     try (SystemSecurityContext context = new SystemSecurityContext()) {
       assertNotNull(SecurityContextHolder.getContext().getAuthentication());
     }

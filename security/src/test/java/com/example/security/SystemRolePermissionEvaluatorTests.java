@@ -14,7 +14,7 @@ public class SystemRolePermissionEvaluatorTests {
   }
 
   @Test
-  void allowsSystemRole() throws Exception {
+  void allowsSystemRole() {
     try (SystemSecurityContext context = new SystemSecurityContext()) {
       SystemRolePermissionEvaluator evaluator = new SystemRolePermissionEvaluator();
       assertTrue(evaluator.hasPermission(context.getAuthentication(), new Object(), "read"));
