@@ -18,13 +18,13 @@ public class MethodSecurityConfig {
 
   @Bean
   static MethodSecurityExpressionHandler methodSecurityExpressionHandler(
-      SystemRolePermissionEvaluator systemRolePermissionEvaluator,
-      AuthZServicePermissionEvaluator customPermissionEvaluator) {
+      SystemRolePermissionEvaluator systemRoleEvaluator,
+      AuthZServicePermissionEvaluator authZEvaluator) {
     DefaultMethodSecurityExpressionHandler handler = new DefaultMethodSecurityExpressionHandler();
 
     CompositePermissionEvaluator eval = new CompositePermissionEvaluator(
-        systemRolePermissionEvaluator,
-        customPermissionEvaluator);
+        systemRoleEvaluator,
+        authZEvaluator);
     handler.setPermissionEvaluator(eval);
 
     return handler;

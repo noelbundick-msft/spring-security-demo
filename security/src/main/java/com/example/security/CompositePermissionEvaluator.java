@@ -6,9 +6,7 @@ import java.util.List;
 
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Component;
 
-@Component
 public class CompositePermissionEvaluator implements PermissionEvaluator {
 
     private List<PermissionEvaluator> evaluators;
