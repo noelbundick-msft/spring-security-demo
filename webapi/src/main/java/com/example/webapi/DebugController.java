@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,10 +29,18 @@ public class DebugController {
         .getAccessToken()
         .getTokenValue();
 
-    return String.join("\n", Arrays.asList(accessToken.split("\\."))
+    String response = "Token:\n";
+    response += String.join("\n", Arrays.asList(accessToken.split("\\."))
         .stream()
         .map(section -> deserialize(section))
         .collect(Collectors.toList()));
+
+    OAuth2AuthenticationToken oauth2Authentication = (OAuth2AuthenticationToken) authentication;
+    response += "\n\nAttributes:\n";
+    response += String.join("\n", oauth2Authentication.getPrincipal().getAttributes().entrySet().stream()
+        .map(entry -> String.format("%s:%s", entry.getKey(), entry.getValue()))
+        .collect(Collectors.toList()));
+    return response;
   }
 
   private String deserialize(String node) {

@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.web.client.HttpClientErrorException;
@@ -70,8 +71,17 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
       return true;
     }
 
-    String userId = authentication.getName();
-    String accessToken = authorizedClientService.loadAuthorizedClient("pingidentity", userId)
+    if (!(authentication instanceof OAuth2AuthenticationToken)) {
+      return false;
+    }
+
+    OAuth2AuthenticationToken oauth2Authentication = (OAuth2AuthenticationToken) authentication;
+    String userId = oauth2Authentication.getPrincipal().getAttribute("userId");
+    if (userId == null) {
+      return false;
+    }
+
+    String accessToken = authorizedClientService.loadAuthorizedClient("pingidentity", authentication.getName())
         .getAccessToken()
         .getTokenValue();
 
