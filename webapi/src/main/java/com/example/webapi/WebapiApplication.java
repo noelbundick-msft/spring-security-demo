@@ -1,15 +1,11 @@
 package com.example.webapi;
 
-import java.util.Collections;
-
-import com.example.security.CustomPermissionEvaluator;
+import com.example.security.SystemSecurityContext;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,18 +21,12 @@ public class WebapiApplication {
 	@Bean
 	CommandLineRunner initThings(ThingRepository repository) {
 		return args -> {
-			try {
-				SecurityContextHolder.getContext().setAuthentication(
-						new UsernamePasswordAuthenticationToken("system", null,
-								Collections.singletonList(CustomPermissionEvaluator.SYSTEM_ROLE)));
-
+			try (var _context = new SystemSecurityContext()) {
 				for (int i = 0; i < 10; i++) {
 					Thing thing = new Thing();
 					thing.setName("Thing " + i);
 					repository.save(thing);
 				}
-			} finally {
-				SecurityContextHolder.clearContext();
 			}
 		};
 	}

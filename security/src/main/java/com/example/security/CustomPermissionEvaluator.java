@@ -14,8 +14,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -25,7 +23,7 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class CustomPermissionEvaluator implements PermissionEvaluator {
   private final Logger logger = LoggerFactory.getLogger(CustomPermissionEvaluator.class);
-  public static GrantedAuthority SYSTEM_ROLE = new SimpleGrantedAuthority("ROLE_SYSTEM");
+  private final SystemRolePermissionEvaluator systemRoleEvaluator = new SystemRolePermissionEvaluator();
 
   private final OAuth2AuthorizedClientService authorizedClientService;
   private String authzurl;
@@ -51,7 +49,8 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
       return false;
     }
 
-    if (authentication.getAuthorities().contains(SYSTEM_ROLE)) {
+    // TODO: remove after we test a CompositePermissionEvaluator
+    if (systemRoleEvaluator.hasPermission(authentication, targetDomainObject, permission)) {
       return true;
     }
 
@@ -66,7 +65,8 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
       return false;
     }
 
-    if (authentication.getAuthorities().contains(SYSTEM_ROLE)) {
+    // TODO: remove after we test a CompositePermissionEvaluator
+    if (systemRoleEvaluator.hasPermission(authentication, targetId, targetType, permission)) {
       return true;
     }
 

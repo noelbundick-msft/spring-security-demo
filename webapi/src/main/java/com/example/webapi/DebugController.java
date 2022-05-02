@@ -22,7 +22,7 @@ public class DebugController {
 
   @GetMapping(value = "/me", produces = "application/json")
   @ResponseBody
-  public String me() throws Exception {
+  public String me() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String accessToken = authorizedClientService.loadAuthorizedClient("pingidentity", authentication.getName())
         .getAccessToken()
