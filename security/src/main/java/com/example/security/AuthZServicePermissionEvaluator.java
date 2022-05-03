@@ -22,16 +22,15 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @Component
-public class CustomPermissionEvaluator implements PermissionEvaluator {
-  private final Logger logger = LoggerFactory.getLogger(CustomPermissionEvaluator.class);
-  private final SystemRolePermissionEvaluator systemRoleEvaluator = new SystemRolePermissionEvaluator();
+public class AuthZServicePermissionEvaluator implements PermissionEvaluator {
+  private final Logger logger = LoggerFactory.getLogger(AuthZServicePermissionEvaluator.class);
 
   private final OAuth2AuthorizedClientService authorizedClientService;
   private String authzurl;
   private String globalAdminRole;
 
   @Autowired
-  public CustomPermissionEvaluator(OAuth2AuthorizedClientService authorizedClientService,
+  public AuthZServicePermissionEvaluator(OAuth2AuthorizedClientService authorizedClientService,
       @Value("${com.example.security.authz-url}") String authzurl,
       @Value("${com.example.security.global-admin-role:global_admin}") String globalAdminRole) {
 
@@ -50,11 +49,6 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
       return false;
     }
 
-    // TODO: remove after we test a CompositePermissionEvaluator
-    if (systemRoleEvaluator.hasPermission(authentication, targetDomainObject, permission)) {
-      return true;
-    }
-
     // TODO call downstream API
     return false;
   }
@@ -64,11 +58,6 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
       Object permission) {
     if (authentication == null) {
       return false;
-    }
-
-    // TODO: remove after we test a CompositePermissionEvaluator
-    if (systemRoleEvaluator.hasPermission(authentication, targetId, targetType, permission)) {
-      return true;
     }
 
     if (!(authentication instanceof OAuth2AuthenticationToken)) {

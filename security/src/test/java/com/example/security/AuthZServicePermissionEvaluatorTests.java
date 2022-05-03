@@ -13,12 +13,12 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 
-class CustomPermissionEvaluatorTests {
+class AuthZServicePermissionEvaluatorTests {
 
   static String TEST_AUTHZ_URL = "http://localhost:3000/users/{userId}.json";
   static String TEST_GLOBAL_ADMIN = "global_admin";
 
-  CustomPermissionEvaluator evaluator;
+  AuthZServicePermissionEvaluator evaluator;
 
   @BeforeEach
   void init() {
@@ -33,7 +33,7 @@ class CustomPermissionEvaluatorTests {
   @Test
   void throwsForNullAuthorizedClientService() {
     assertThrows(IllegalArgumentException.class, () -> {
-      new CustomPermissionEvaluator(null, TEST_AUTHZ_URL, TEST_GLOBAL_ADMIN);
+      new AuthZServicePermissionEvaluator(null, TEST_AUTHZ_URL, TEST_GLOBAL_ADMIN);
     });
   }
 
@@ -44,39 +44,23 @@ class CustomPermissionEvaluatorTests {
         .build();
     var clientRegistrationRepository = new InMemoryClientRegistrationRepository(registration);
     var authorizedClientService = new InMemoryOAuth2AuthorizedClientService(clientRegistrationRepository);
-    var evaluator = new CustomPermissionEvaluator(authorizedClientService, TEST_AUTHZ_URL, TEST_GLOBAL_ADMIN);
+    var evaluator = new AuthZServicePermissionEvaluator(authorizedClientService, TEST_AUTHZ_URL, TEST_GLOBAL_ADMIN);
     assertNotNull(evaluator);
   }
 
   @Test
-  void hasPermissionByObject_failsForNullAuthentication() {
+  void failsForNullAuthentication() {
     assertFalse(evaluator.hasPermission(null, null, "none"));
-  }
-
-  @Test
-  void hasPermissionById_failsForNullAuthentication() {
     assertFalse(evaluator.hasPermission(null, 0, "none", "none"));
   }
 
-  @Test
-  void hasPermissionByObject_succeedsForSystemRole() {
-    var systemAuthentication = createAuthentication("SYSTEM");
-    assertTrue(evaluator.hasPermission(systemAuthentication, null, "none"));
-  }
-
-  @Test
-  void hasPermissionById_succeedsForSystemRole() {
-    var systemAuthentication = createAuthentication("SYSTEM");
-    assertTrue(evaluator.hasPermission(systemAuthentication, 0, "none", "none"));
-  }
-
-  CustomPermissionEvaluator createEvaluator() {
+  AuthZServicePermissionEvaluator createEvaluator() {
     var registration = ClientRegistration.withRegistrationId("pingidentity")
         .authorizationGrantType(AuthorizationGrantType.JWT_BEARER)
         .build();
     var clientRegistrationRepository = new InMemoryClientRegistrationRepository(registration);
     var authorizedClientService = new InMemoryOAuth2AuthorizedClientService(clientRegistrationRepository);
-    return new CustomPermissionEvaluator(authorizedClientService, TEST_AUTHZ_URL, TEST_GLOBAL_ADMIN);
+    return new AuthZServicePermissionEvaluator(authorizedClientService, TEST_AUTHZ_URL, TEST_GLOBAL_ADMIN);
   }
 
   Authentication createAuthentication(String role) {
