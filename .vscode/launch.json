@@ -6,10 +6,18 @@
   "configurations": [
     {
       "type": "java",
-      "name": "Launch WebApplication",
+      "name": "Launch Web",
       "request": "launch",
       "mainClass": "com.example.web.WebApplication",
       "projectName": "web",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Launch API",
+      "request": "launch",
+      "mainClass": "com.example.api.ApiApplication",
+      "projectName": "api",
       "envFile": "${workspaceFolder}/.env"
     }
   ]

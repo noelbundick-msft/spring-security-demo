@@ -16,5 +16,5 @@ spring:
 com:
   example:
     security:
-      authz-url: 'http://localhost:3000/users/{userId}.json'
+      authz-url: 'http://localhost:3000/users/{userId}.json?projection=userRoleProjection'
       #global-admin-role: global_admin

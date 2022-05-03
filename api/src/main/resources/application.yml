@@ -1,0 +1,17 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${PING_ISSUER_URI}
+        # registration:
+        #   pingidentity:
+        #     client-id: ${PING_CLIENT_ID}
+        #     client-secret: ${PING_CLIENT_SECRET}
+        #     provider: pingidentity
+        #     scope: projects:read,projects:write,profile,email
+        #     client-authentication-method: basic
+        #     authorization-grant-type: authorization_code
+        # provider:
+        #   pingidentity:
+        #     issuer-uri: ${PING_ISSUER_URI}
