@@ -1,4 +1,4 @@
-package com.example.webapi;
+package com.example.web;
 
 import static org.junit.jupiter.api.Assertions.*;
 

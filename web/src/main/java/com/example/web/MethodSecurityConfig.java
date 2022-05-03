@@ -1,4 +1,4 @@
-package com.example.webapi;
+package com.example.web;
 
 import com.example.security.CompositePermissionEvaluator;
 import com.example.security.AuthZServicePermissionEvaluator;

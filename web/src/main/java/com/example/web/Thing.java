@@ -1,4 +1,4 @@
-package com.example.webapi;
+package com.example.web;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

@@ -22,7 +22,7 @@
   </properties>
 
   <modules>
-    <module>webapi</module>
+    <module>web</module>
     <module>security</module>
   </modules>
 

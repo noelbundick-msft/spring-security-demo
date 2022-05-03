@@ -1,4 +1,4 @@
-package com.example.webapi;
+package com.example.web;
 
 import com.example.security.SystemSecurityContext;
 
@@ -12,10 +12,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @SpringBootApplication
-public class WebapiApplication {
+public class WebApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(WebapiApplication.class, args);
+		SpringApplication.run(WebApplication.class, args);
 	}
 
 	@Bean

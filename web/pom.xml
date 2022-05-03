@@ -8,9 +8,9 @@
     <version>${revision}</version>
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>webapi</artifactId>
+	<artifactId>web</artifactId>
 	<version>${revision}</version>
-	<name>webapi</name>
+	<name>web</name>
 	<description>Demo project for Spring Boot</description>
 	<dependencies>
 		<dependency>
