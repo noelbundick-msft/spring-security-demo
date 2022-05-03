@@ -8,10 +8,10 @@
     <version>${revision}</version>
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>web</artifactId>
+	<artifactId>api</artifactId>
 	<version>${revision}</version>
-	<name>web</name>
-	<description>Web app with OAuth2 client login</description>
+	<name>api</name>
+	<description>Resource Server API</description>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -25,13 +25,9 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-rest</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-rest-hal-explorer</artifactId>
-		</dependency>
   	<dependency>
   		<groupId>org.springframework.boot</groupId>
-  		<artifactId>spring-boot-starter-oauth2-client</artifactId>
+  		<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
   	</dependency>
 
 		<dependency>
@@ -63,4 +59,5 @@
 			</plugin>
 		</plugins>
 	</build>
+
 </project>
