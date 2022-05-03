@@ -25,6 +25,8 @@ public class WebapiApplication {
 				for (int i = 0; i < 10; i++) {
 					Thing thing = new Thing();
 					thing.setName("Thing " + i);
+					thing.setId(i);
+					thing.setCustomerId(i+10);
 					repository.save(thing);
 				}
 			}

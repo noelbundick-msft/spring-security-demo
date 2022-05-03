@@ -1,0 +1,33 @@
+{
+    "roleAssignments": [
+      {
+        "id": 3,
+        "role": {
+          "assignableScopes": [
+            "/*"
+          ],
+          "description": "Global Administrator",
+          "id": 1,
+          "roleName": "global_admin"
+        },
+        "scope": "/*",
+        "userPrincipalId": "96593551-c1de-4ef7-926b-ad7730dfb9d0"
+      },
+      {
+        "id": 3,
+        "role": {
+          "assignableScopes": [
+            "/*"
+          ],
+          "description": "read thing 11",
+          "id": 13,
+          "roleName": "customer_read"
+        },
+        "scope": "/customers/11",
+        "userPrincipalId": "96593551-c1de-4ef7-926b-ad7730dfb9d0"
+      }
+    ],
+    "userPrincipalId": "96593551-c1de-4ef7-926b-ad7730dfb9d0",
+    "userPrincipalOrgId": "2"
+  }
+  
