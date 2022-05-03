@@ -17,8 +17,8 @@ public interface ThingRepository extends JpaRepository<Thing, Long> {
   Page<Thing> findAll(Pageable pageable);
 
   @Override
-//  @PreAuthorize("hasPermission(#id, 'org', 'read')")
-  @PostAuthorize("hasPermission(returnObject, 'org', 'read')")
+  @PreAuthorize("hasPermission(#id, 'org', 'read')")
+  @PostAuthorize("hasPermission(returnObject, 'read')")
   Optional<Thing> findById(Long id);
 
   @Override

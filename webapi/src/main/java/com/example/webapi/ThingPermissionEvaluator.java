@@ -53,9 +53,11 @@ public class ThingPermissionEvaluator implements PermissionEvaluator {
     if (authentication == null) {
       return false;
     }
-    
-    Thing thing = (Thing) targetDomainObject;
-    
+
+    if (authentication.getAuthorities().contains(SYSTEM_ROLE)) {
+      return true;
+    }
+
     String userId = authentication.getName();
     String accessToken = authorizedClientService.loadAuthorizedClient("pingidentity", userId)
         .getAccessToken()
@@ -66,7 +68,18 @@ public class ThingPermissionEvaluator implements PermissionEvaluator {
       return false;
     }
 
-    return evaluateRoleAssignments("/*", permission.toString(), userDetails.get().getRoleAssignments());
+    if (userDetails.get().getRoleAssignments().get(1).getRole().getRoleName().equals("customer_read")
+      && userDetails.get().getRoleAssignments().get(1).getScope().equals("/customers/11")) {
+      return true;
+    }
+
+    // TODO: replace hard coded with actual things
+    if (validatePermission(userDetails, "customer_read", "/customers/11")) {
+      return true;
+    }
+
+    // TODO call downstream API
+    return false;
   }
 
   @Override
@@ -81,18 +94,13 @@ public class ThingPermissionEvaluator implements PermissionEvaluator {
     }
 
     String userId = authentication.getName();
-    /*String accessToken = authorizedClientService.loadAuthorizedClient("pingidentity", userId)
+    String accessToken = authorizedClientService.loadAuthorizedClient("pingidentity", userId)
         .getAccessToken()
         .getTokenValue();
 
     Optional<AuthUserDetails> userDetails = getUserDetails(userId, accessToken);
-    if (!userDetails.isPresent()) {
-      return false;
-    }*/
 
-    //return evaluateRoleAssignments("/*", permission.toString(), userDetails.get().getRoleAssignments());
-    
-    return true;
+    return evaluateRoleAssignments("/*", permission.toString(), userDetails.get().getRoleAssignments());
   }
 
   protected Optional<AuthUserDetails> getUserDetails(String userId, String accessToken) {
@@ -139,5 +147,19 @@ public class ThingPermissionEvaluator implements PermissionEvaluator {
   protected boolean roleAssignmentMatchesScope(AuthRoleAssignment roleAssignment, String scope) {
     // TODO: process wildcards
     return roleAssignment.getScope().equals(scope);
+  }
+
+  protected boolean validatePermission(Optional<AuthUserDetails> userDetails, String roleName, String scope) {
+    if (!userDetails.isPresent()) {
+      return false;
+    }
+
+    for (AuthRoleAssignment roleAssignment : userDetails.get().getRoleAssignments()) {
+      if (roleAssignment.getRole().getRoleName().equals(roleName) && roleAssignmentMatchesScope(roleAssignment, scope)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }
