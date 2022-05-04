@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 // Deny access by default so we don't accidentally expose data that we didn't intend to
@@ -17,6 +18,7 @@ public interface ThingRepository extends JpaRepository<Thing, Long> {
 
   @Override
   @PreAuthorize("hasPermission(#id, 'org', 'read')")
+  @PostAuthorize("hasPermission(returnObject, 'read')")
   Optional<Thing> findById(Long id);
 
   @Override

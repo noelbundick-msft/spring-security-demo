@@ -13,4 +13,5 @@ public class Thing {
   @GeneratedValue
   long id;
   String name;
+  long customerId;
 }
