@@ -14,16 +14,16 @@
       "userPrincipalId": "96593551-c1de-4ef7-926b-ad7730dfb9d0"
     },
     {
-      "id": 3,
+      "id": 7,
       "role": {
         "assignableScopes": [
           "/*"
         ],
-        "description": "read thing 11",
-        "id": 11,
+        "description": "Customer Administrator",
+        "id": 13,
         "roleName": "customer_read"
       },
-      "scope": "/customers/11",
+      "scope": "/customers/13",
       "userPrincipalId": "96593551-c1de-4ef7-926b-ad7730dfb9d0"
     }
   ],

@@ -2,6 +2,7 @@ package com.example.webapi;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import com.example.security.AuthRoleAssignment;
@@ -49,7 +50,7 @@ public class ThingPermissionEvaluator implements PermissionEvaluator {
   }
 
   @Override
-  public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
+  public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) throws NoSuchElementException {
     if (authentication == null) {
       return false;
     }
@@ -58,24 +59,31 @@ public class ThingPermissionEvaluator implements PermissionEvaluator {
       return true;
     }
 
-    String userId = authentication.getName();
-    String accessToken = authorizedClientService.loadAuthorizedClient("pingidentity", userId)
-        .getAccessToken()
-        .getTokenValue();
+    Thing thing;
+    try {
+      thing = ((Optional<Thing>) targetDomainObject).get();
 
-    Optional<AuthUserDetails> userDetails = getUserDetails(userId, accessToken);
-    if (!userDetails.isPresent()) {
-      return false;
-    }
+      long id = thing.getCustomerId();
 
-    if (userDetails.get().getRoleAssignments().get(1).getRole().getRoleName().equals("customer_read")
-      && userDetails.get().getRoleAssignments().get(1).getScope().equals("/customers/11")) {
-      return true;
-    }
-
-    // TODO: replace hard coded with actual things
-    if (validatePermission(userDetails, "customer_read", "/customers/11")) {
-      return true;
+      String userId = authentication.getName();
+      String accessToken = authorizedClientService.loadAuthorizedClient("pingidentity", userId)
+          .getAccessToken()
+          .getTokenValue();
+  
+      Optional<AuthUserDetails> userDetails = getUserDetails(userId, accessToken);
+      if (!userDetails.isPresent()) {
+        return false;
+      }
+  
+      if (validatePermission(userDetails, "customer_read", "/customers/" + id)) {
+        return true;
+      }
+    } catch (ClassCastException e) {
+      logger.error("Failed to cast targetDomainObject to Thing", e);
+      throw e;
+    } catch (NoSuchElementException e) {
+      logger.error("Failed to get Thing from targetDomainObject", e);
+      throw e;
     }
 
     // TODO call downstream API
